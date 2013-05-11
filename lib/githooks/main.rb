@@ -1,8 +1,6 @@
 require 'fileutils'
 require 'githooks/run'
 
-# TODO (2013-05-11) Potential new objects: Config, Run
-# TODO (2013-05-11) "Usage" per-command
 module Githooks
   class Main
     def self.exec(*args)
@@ -17,7 +15,7 @@ module Githooks
     def exec
       case @command
       when 'run'
-        Run.call(@args)
+        Run.call(*@args)
       end
     end
   end

@@ -1,13 +1,14 @@
 require 'githooks/config'
 require 'githooks/app_error'
 
+# TODO (2013-05-11) "Usage" per-command
 module Githooks
   class Run
-    def self.call(args)
-      new(args).call
+    def self.call(*args)
+      new(*args).call
     end
 
-    def initialize(args)
+    def initialize(*args)
       @args = args
     end
 
@@ -28,7 +29,7 @@ module Githooks
         raise AppError.new("The file `#{script_path}` is not executable")
       end
 
-      system(script_path)
+      system(script_path, *@args[1 .. -1])
     end
 
     private
