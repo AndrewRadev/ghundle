@@ -17,7 +17,7 @@ module Githooks
 
       destination_path = config.hook_path("#{hook_type}/#{hook_name}")
 
-      puts ">> Copying hook to #{destination_path}..."
+      say "Copying hook to #{destination_path}..."
       FileUtils.mkdir_p(File.dirname(destination_path))
       FileUtils.cp "#{path}/run", destination_path
     end

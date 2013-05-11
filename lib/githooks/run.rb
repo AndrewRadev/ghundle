@@ -21,6 +21,7 @@ module Githooks
         error "The file `#{script_path}` is not executable"
       end
 
+      say "Running hook #{hook_name}"
       system(script_path, *@args[1 .. -1])
     end
   end

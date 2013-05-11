@@ -14,6 +14,10 @@ module Githooks
 
     private
 
+    def say(message)
+      puts ">> #{message}"
+    end
+
     def error(*args)
       raise AppError.new(*args)
     end
