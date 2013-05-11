@@ -1,41 +1,27 @@
-require 'githooks/config'
+require 'githooks/command'
 require 'githooks/app_error'
 
 # TODO (2013-05-11) "Usage" per-command
 module Githooks
-  class Run
-    def self.call(*args)
-      new(*args).call
-    end
-
-    def initialize(*args)
-      @args = args
-    end
-
+  class Run < Command
     def call
-      hook_name = @args.first
+      hook_name = args.first
 
       if not hook_name
-        raise AppError.new("No hook name given")
+        error "No hook name given"
       end
 
       script_path = config.hook_path(hook_name)
 
       if not File.exist?(script_path)
-        raise AppError.new("The file `#{script_path}` doesn't exist")
+        error "The file `#{script_path}` doesn't exist"
       end
 
       if not File.executable?(script_path)
-        raise AppError.new("The file `#{script_path}` is not executable")
+        error "The file `#{script_path}` is not executable"
       end
 
       system(script_path, *@args[1 .. -1])
-    end
-
-    private
-
-    def config
-      @config ||= Githooks::Config
     end
   end
 end

@@ -1,37 +1,19 @@
 require 'yaml'
+require 'githooks/command'
 
 module Githooks
-  class Fetch
-    def self.call(*args)
-      new(*args).call
-    end
-
-    def initialize(*args)
-      @args = args
-    end
-
+  class Fetch < Command
     def call
-      path      = @args.first
+      path = args.first
+
+      validate_path(path)
+
       hook_name = File.basename(path)
-
-      if not path
-        raise AppError.new("No path given (TODO usage)")
-      end
-
-      if not File.directory?(path)
-        raise AppError.new("Directory `#{path}` doesn't exist")
-      end
-
-      if not File.exist?("#{path}/meta.yml") or not File.exist?("#{path}/run")
-        raise AppError.new("Structure of #{path} does not comply with requirements, see documentation (TODO documentation)")
-      end
-
       meta      = YAML.load_file("#{path}/meta.yml")
-      hook_type = meta['type']
 
-      if not hook_type
-        raise AppError.new("No :type key found in `#{path}/meta.yml`")
-      end
+      validate_metadata(meta)
+
+      hook_type = meta['type']
 
       destination_path = config.hook_path("#{hook_type}/#{hook_name}")
 
@@ -39,10 +21,48 @@ module Githooks
       FileUtils.cp "#{path}/run", destination_path
     end
 
+    def validate_path(path)
+      if not path
+        error "No path given (TODO usage)"
+      end
+
+      if not File.directory?(path)
+        error "Directory `#{path}` doesn't exist"
+      end
+
+      if not File.exist?("#{path}/meta.yml") or not File.exist?("#{path}/run")
+        error "Structure of #{path} does not comply with requirements, see documentation (TODO documentation)"
+      end
+    end
+
+    def validate_metadata(data)
+      if not data
+        error "No metadata found."
+      end
+
+      if not data['type']
+        error "No 'type' key found in metadata."
+      end
+
+      if not possible_hook_types.include?(data['type'])
+        error "The type of the script needs to be one of: #{possible_hook_types.join(', ')}."
+      end
+    end
+
     private
 
-    def config
-      @config ||= Githooks::Config
+    def possible_hook_types
+      %w{
+        applypatch-msg
+        post-commit
+        post-update
+        pre-commit
+        update
+        commit-msg
+        post-receive
+        pre-applypatch
+        pre-rebase
+      }
     end
   end
 end
