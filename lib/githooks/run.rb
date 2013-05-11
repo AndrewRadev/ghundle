@@ -1,4 +1,5 @@
 require 'githooks/config'
+require 'githooks/app_error'
 
 module Githooks
   class Run
@@ -14,17 +15,17 @@ module Githooks
       hook_name = @args.first
 
       if not hook_name
-        raise "No hook name given"
+        raise AppError.new("No hook name given")
       end
 
       script_path = config.hook_path(hook_name)
 
       if not File.exist?(script_path)
-        raise "The file `#{script_path}` doesn't exist"
+        raise AppError.new("The file `#{script_path}` doesn't exist")
       end
 
       if not File.executable?(script_path)
-        raise "The file `#{script_path}` is not executable"
+        raise AppError.new("The file `#{script_path}` is not executable")
       end
 
       system(script_path)

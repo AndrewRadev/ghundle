@@ -19,4 +19,10 @@ EOF
   exit 1
 end
 
-Githooks::Main.exec(*ARGV.dup)
+begin
+  Githooks::Main.exec(*ARGV.dup)
+rescue Githooks::AppError => e
+  puts e.message
+  puts
+  puts e.usage
+end
