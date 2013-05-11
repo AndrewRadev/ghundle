@@ -2,4 +2,21 @@
 
 $: << File.expand_path('../../lib', __FILE__)
 
-puts 'nothing to do yet'
+require 'githooks/cli'
+
+if ARGV.size < 1
+  puts <<EOF
+Usage:
+
+  githooks <command> [options...]
+
+  <command> can currently be only "run", so
+
+  githooks run <hook-name>
+
+EOF
+
+  exit 1
+end
+
+Githooks::Cli.exec(*ARGV.dup)
