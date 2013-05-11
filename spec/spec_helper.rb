@@ -10,6 +10,12 @@ require 'githooks/main'
 
 Githooks::Config.hooks_root = Support.hooks_root
 
+class Githooks::Command
+  def say(*args)
+    # stubbed out in test mode
+  end
+end
+
 RSpec.configure do |config|
   config.include Support
 
