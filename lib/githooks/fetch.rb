@@ -49,29 +49,5 @@ module Githooks
         error "The type of the script needs to be one of: #{possible_hook_types.join(', ')}."
       end
     end
-
-    private
-
-    def possible_hook_types
-      %w{
-        applypatch-msg
-        commit-msg
-        post-applypatch
-        post-checkout
-        post-commit
-        post-merge
-        post-receive
-        post-rewrite
-        post-update
-        pre-applypatch
-        pre-auto-gc
-        pre-commit
-        pre-push
-        pre-rebase
-        pre-receive
-        prepare-commit-msg
-        update
-      }
-    end
   end
 end

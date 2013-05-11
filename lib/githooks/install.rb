@@ -80,30 +80,5 @@ module Githooks
         error "File `#{script_name}` doesn't exist or is not executable."
       end
     end
-
-    private
-
-    # TODO (2013-05-11) Duplicated, refactor
-    def possible_hook_types
-      %w{
-        applypatch-msg
-        commit-msg
-        post-applypatch
-        post-checkout
-        post-commit
-        post-merge
-        post-receive
-        post-rewrite
-        post-update
-        pre-applypatch
-        pre-auto-gc
-        pre-commit
-        pre-push
-        pre-rebase
-        pre-receive
-        prepare-commit-msg
-        update
-      }
-    end
   end
 end
