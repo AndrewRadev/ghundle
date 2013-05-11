@@ -25,4 +25,5 @@ rescue Githooks::AppError => e
   puts e.message
   puts
   puts e.usage
+  exit 1
 end

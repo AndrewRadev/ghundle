@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'githooks/run'
+require 'githooks/fetch'
 
 module Githooks
   class Main
@@ -14,8 +15,8 @@ module Githooks
 
     def exec
       case @command
-      when 'run'
-        Run.call(*@args)
+      when 'run' then Run.call(*@args)
+      when 'fetch' then Fetch.call(*@args)
       end
     end
   end
