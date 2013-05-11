@@ -3,7 +3,7 @@ require 'fileutils'
 # TODO (2013-05-11) Potential new objects: Config, Run
 # TODO (2013-05-11) "Usage" per-command
 module Githooks
-  class Cli
+  class Main
     @@hooks_root = File.expand_path('~/.githooks/')
 
     def self.hooks_root

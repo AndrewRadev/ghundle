@@ -6,9 +6,9 @@ require 'pp'
 require 'fileutils'
 require 'tmpdir'
 require 'support'
-require 'githooks/cli'
+require 'githooks/main'
 
-Githooks::Cli.hooks_root = Support.hooks_root
+Githooks::Main.hooks_root = Support.hooks_root
 
 RSpec.configure do |config|
   config.include Support

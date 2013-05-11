@@ -2,7 +2,7 @@
 
 $: << File.expand_path('../../lib', __FILE__)
 
-require 'githooks/cli'
+require 'githooks/main'
 
 if ARGV.size < 1
   puts <<EOF
@@ -19,4 +19,4 @@ EOF
   exit 1
 end
 
-Githooks::Cli.exec(*ARGV.dup)
+Githooks::Main.exec(*ARGV.dup)
