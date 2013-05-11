@@ -13,6 +13,8 @@ Gem::Specification.new do |s|
     locations.
   D
 
+  s.add_dependency 'rainbow', '>= 1.1.4'
+
   s.add_development_dependency 'rspec', '>= 2.13.0'
   s.add_development_dependency 'rake'
 

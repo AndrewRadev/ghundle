@@ -1,4 +1,5 @@
 require 'githooks/config'
+require 'rainbow'
 
 module Githooks
   class Command
@@ -15,7 +16,8 @@ module Githooks
     private
 
     def say(message)
-      puts ">> #{message}"
+      print '>> '.foreground(:green).bright
+      puts message.foreground(:green)
     end
 
     def error(*args)
