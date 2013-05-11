@@ -8,7 +8,7 @@ module Githooks
 
       it "fetches a git hook from a local directory and puts it in its right place" do
         ensure_parent_directory 'hook-source/test-hook/run'
-        write_file('hook-source/test-hook/meta.yml', YAML.dump('type' => 'pre-commit'))
+        write_file('hook-source/test-hook/meta.yml', YAML.dump('type' => 'post-merge'))
         write_file('hook-source/test-hook/run', <<-EOF)
           #! /bin/sh
           echo "OK"
@@ -17,7 +17,7 @@ module Githooks
 
         Fetch.call('hook-source/test-hook')
 
-        expect_hook_exists 'pre-commit/test-hook'
+        expect_hook_exists 'post-merge/test-hook'
       end
 
       it "validates the given local path" do
