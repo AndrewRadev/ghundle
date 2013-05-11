@@ -1,7 +1,3 @@
-- githooks run post-merge/hook-name
-  - Script location (usually ~/.githooks, settable in tests)
-  - Environment variables for all different cases (separate object for each hook type?)
-
 - githooks fetch (to cache)
   - With local file
   - With remote location
@@ -9,3 +5,7 @@
 - githooks install + githooks list
   - put a githooks run into the git hook file
   - list all hooks
+
+
+Later:
+  - Double-check all git hook types for env variables and stuff (also write tests)
