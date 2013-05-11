@@ -8,7 +8,7 @@ require 'tmpdir'
 require 'support'
 require 'githooks/main'
 
-Githooks::Main.hooks_root = Support.hooks_root
+Githooks::Config.hooks_root = Support.hooks_root
 
 RSpec.configure do |config|
   config.include Support
