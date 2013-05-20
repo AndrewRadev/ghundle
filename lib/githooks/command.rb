@@ -25,7 +25,7 @@ module Githooks
     end
 
     def config
-      @config ||= Githooks::Config
+      @config ||= Config
     end
 
     def possible_hook_types
