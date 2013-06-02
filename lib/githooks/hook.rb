@@ -1,5 +1,6 @@
 require 'githooks/config'
 require 'githooks/metadata'
+require 'open-uri'
 
 module Githooks
   class Hook
@@ -24,8 +25,13 @@ module Githooks
         new(name, metadata, source)
       end
 
-      def from_remote_source(url)
-        # validate
+      # <username>/<repo>:<path>
+      def from_github_source(description)
+        source   = GithubSource.new(description)
+        name     = source.script_name
+        metadata = source.metadata
+
+        new(name, metadata, source)
       end
 
       def from_cached_script(hook_name)
@@ -46,6 +52,48 @@ module Githooks
     end
 
     private
+
+    class GithubSource
+      attr_reader :username, :repo, :path
+      attr_reader :script_name
+
+      def initialize(description)
+        @description               = description
+        project_description, @path = @description.split(':')
+        @username, @repo           = project_description.split('/')
+        @script_name               = File.basename(path)
+      end
+
+      def metadata
+        @metadata ||=
+          begin
+            url  = raw_github_url("#{@path}/meta.yml")
+            yaml = open(url).read
+            Metadata.new(YAML.load(yaml))
+          end
+      end
+
+      def fetch(destination_path)
+        FileUtils.mkdir_p(File.dirname(destination_path))
+
+        File.open(destination_path, 'w') do |f|
+          script = open(raw_github_url("#{@path}/run")).read
+          f.write(script)
+        end
+
+        File.chmod(0755, destination_path)
+      end
+
+      def to_s
+        @path
+      end
+
+      private
+
+      def raw_github_url(path)
+        "https://raw.github.com/#{@username}/#{@repo}/master/#{path}"
+      end
+    end
 
     # TODO (2013-05-20) Validation
     class LocalSource

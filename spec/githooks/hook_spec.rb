@@ -30,5 +30,24 @@ module Githooks
         hook.should be_cached
       end
     end
+
+    describe ".from_github_source" do
+      before :each do
+        github_root = 'https://raw.github.com/AndrewRadev/githooks/master'
+        FakeWeb.register_uri(:get, "#{github_root}/hooks/ctags/meta.yml", :body => YAML.dump('type' => 'post-merge'))
+        FakeWeb.register_uri(:get, "#{github_root}/hooks/ctags/run", :body => <<-EOF)
+          #! /bin/sh
+          echo "OK"
+        EOF
+      end
+
+      it "can be fetched from a remote location" do
+        hook = Hook.from_github_source('AndrewRadev/githooks:hooks/ctags')
+        hook.should_not be_cached
+
+        hook.fetch
+        hook.should be_cached
+      end
+    end
   end
 end
