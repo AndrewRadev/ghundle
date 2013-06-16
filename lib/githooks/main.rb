@@ -1,7 +1,4 @@
-require 'fileutils'
-require 'githooks/run'
-require 'githooks/fetch'
-require 'githooks/install'
+require 'githooks/command'
 
 module Githooks
   class Main
@@ -16,9 +13,9 @@ module Githooks
 
     def exec
       case @command
-      when 'run'     then Run.call(*@args)
-      when 'fetch'   then Fetch.call(*@args)
-      when 'install' then Install.call(*@args)
+      when 'run'     then Command::Run.call(*@args)
+      when 'fetch'   then Command::Fetch.call(*@args)
+      when 'install' then Command::Install.call(*@args)
       end
     end
   end

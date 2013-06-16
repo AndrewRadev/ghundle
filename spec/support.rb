@@ -2,15 +2,31 @@ require 'fileutils'
 
 module Support
   def self.hooks_root
-    'test-githooks'
+    Pathname.new('test-githooks')
   end
 
-  def create_test_script(name, contents)
-    filename = File.join(Support.hooks_root, name)
+  def create_script(name, contents)
+    filename = File.join(name, 'run')
 
     ensure_parent_directory(filename)
     write_file(filename, contents)
     make_executable(filename)
+  end
+
+  def create_metadata(name, data = {})
+    data = test_metadata(data)
+    filename = File.join(name, 'meta.yml')
+
+    ensure_parent_directory(filename)
+    write_file(filename, YAML.dump(data))
+  end
+
+  def test_metadata(overrides = {})
+    {
+      'type'        => 'post-checkout',
+      'version'     => '0.0.0',
+      'description' => 'description',
+    }.merge(overrides)
   end
 
   def ensure_parent_directory(filename)

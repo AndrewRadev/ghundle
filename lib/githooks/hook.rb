@@ -1,58 +1,65 @@
 require 'githooks/config'
-require 'githooks/metadata'
-require 'githooks/source'
+require 'githooks/source/local'
 require 'open-uri'
 
 module Githooks
   class Hook
-    attr_reader :name, :metadata, :source
+    attr_reader :name, :source
 
-    def initialize(name, metadata, source = nil)
-      @name     = name
-      @metadata = metadata
-      @source   = source
+    def initialize(name, source = nil)
+      @name = name
+      @source ||= Source.local(name)
     end
 
     def type
       metadata.type
     end
 
-    class << self
-      def from_local_source(path)
-        name     = File.basename(path)
-        source   = Source::Local.new(path)
-        metadata = source.metadata
+    def metadata
+      @metadata ||= source.metadata
+    end
 
-        new(name, metadata, source)
+    def source
+
+    end
+
+    def run(*args)
+      validate
+      system(script_path, *args)
+    end
+
+    def validate
+      if not name
+        error "No hook name given"
       end
 
-      # <username>/<repo>:<path>
-      def from_github_source(description)
-        source   = Source::Github.new(description)
-        name     = source.script_name
-        metadata = source.metadata
+      script_path = config.hook_path(hook_name)
 
-        new(name, metadata, source)
+      if not File.exist?(script_path)
+        error "The file `#{script_path}` doesn't exist"
       end
 
-      def from_cached_script(hook_name)
-        # validate
+      if not File.executable?(script_path)
+        error "The file `#{script_path}` is not executable"
       end
     end
 
     def fetch
-      return if cached?
+      return if local?
 
       destination = config.hook_path("#{metadata.type}/#{name}")
-      # say "Copying hook to #{destination_path}..."
       source.fetch(destination)
     end
 
-    def cached?
+    def local?
       File.executable?(config.hook_path("#{type}/#{name}"))
     end
 
     private
+
+    def error(*args)
+      raise AppError.new(*args)
+    end
 
     def config
       @config ||= Config

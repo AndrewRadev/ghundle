@@ -13,7 +13,7 @@ module Githooks
         FileUtils.mkdir_p(hooks_root)
       end
 
-      File.join(hooks_root, hook_name)
+      Pathname.new(File.join(hooks_root, hook_name))
     end
   end
 end

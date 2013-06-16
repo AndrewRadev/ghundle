@@ -11,7 +11,7 @@ require 'githooks/main'
 
 Githooks::Config.hooks_root = Support.hooks_root
 
-class Githooks::Command
+class Githooks::Command::Common
   def say(*args)
     # stubbed out in test mode
   end
