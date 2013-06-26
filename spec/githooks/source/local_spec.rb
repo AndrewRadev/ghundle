@@ -21,6 +21,29 @@ module Githooks
       it "doesn't do anything when fetching" do
         source.fetch
       end
+
+      describe "(validation)" do
+        it "validates the presence of the script" do
+          source.validate
+
+          Support.hooks_root.join('test-script/run').unlink
+          expect { source.validate }.to raise_error
+        end
+
+        it "validates that the script is executable" do
+          source.validate
+
+          File.chmod 0644, Support.hooks_root.join('test-script/run')
+          expect { source.validate }.to raise_error
+        end
+
+        it "validates the presence of the metadata file" do
+          source.validate
+
+          Support.hooks_root.join('test-script/meta.yml').unlink
+          expect { source.validate }.to raise_error
+        end
+      end
     end
   end
 end
