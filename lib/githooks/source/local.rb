@@ -14,7 +14,7 @@ module Githooks
       end
 
       def name
-        @name ||= File.basename(@local_path)
+        @local_path.basename
       end
 
       def validate
@@ -45,8 +45,6 @@ module Githooks
       def fetch
         self
       end
-
-      private
 
       def script_path
         @local_path.join('run')

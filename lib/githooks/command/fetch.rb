@@ -1,5 +1,7 @@
 require 'yaml'
 require 'githooks/command'
+require 'githooks/source'
+require 'githooks/hook'
 
 module Githooks
   module Command
@@ -11,57 +13,20 @@ module Githooks
         identifier = args.first
 
         if identifier =~ /^github.com/
-          source = Source.github(identifier)
+          source = Source::Github.new(identifier)
         elsif File.directory?(identifier)
-          source = Source.directory(identifier)
+          source = Source::Directory.new(identifier)
         elsif File.directory?(config.hook_path(identifier))
-          source = Source.local(identifier)
+          # already fetched, do nothing
+          return
         else
           error "Can't identify hook source from identifier: #{identifier}"
         end
 
-        validate_path(path)
+        hook_name = source.hook_name
 
-        hook_name = File.basename(path)
-        meta      = YAML.load_file("#{path}/meta.yml")
-
-        validate_metadata(meta)
-
-        hook_type = meta['type']
-
-        destination_path = config.hook_path("#{hook_type}/#{hook_name}")
-
-        say "Copying hook to #{destination_path}..."
-        FileUtils.mkdir_p(File.dirname(destination_path))
-        FileUtils.cp "#{path}/run", destination_path
-      end
-
-      def validate_path(path)
-        if not path
-          error "No path given (TODO usage)"
-        end
-
-        if not File.directory?(path)
-          error "Directory `#{path}` doesn't exist"
-        end
-
-        if not File.exist?("#{path}/meta.yml") or not File.exist?("#{path}/run")
-          error "Structure of #{path} does not comply with requirements, see documentation (TODO documentation)"
-        end
-      end
-
-      def validate_metadata(data)
-        if not data
-          error "No metadata found."
-        end
-
-        if not data['type']
-          error "No 'type' key found in metadata."
-        end
-
-        if not possible_hook_types.include?(data['type'])
-          error "The type of the script needs to be one of: #{possible_hook_types.join(', ')}."
-        end
+        say "Fetching hook #{source.hook_name}..."
+        source.fetch(config.hook_path(source.hook_name))
       end
     end
   end

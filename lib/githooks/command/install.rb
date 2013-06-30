@@ -8,21 +8,26 @@ module Githooks
     #
     class Install < Common
       def call
-        hook = args.first
-        validate_hook(hook)
+        hook_name    = args.first
+        local_source = Source::Local.new(config.hook_path(hook_name))
 
-        hook_type, _ = hook.split('/')
-        validate_hook_type(hook_type)
+        if not local_source.exists?
+          Fetch.call(args)
+        end
 
-        prepare_git_hook(hook_type)
-        install_git_hook(hook_type, hook)
+        hook = Hook.new(local_source)
+
+        prepare_git_hook(hook)
+        install_git_hook(hook)
       end
 
-      def prepare_git_hook(type)
+      def prepare_git_hook(hook)
         validate_git_repo
-        validate_hook_type(type)
 
-        git_hook_file = ".git/hooks/#{type}"
+        hook_type = hook.metadata.type
+        validate_hook_type(hook_type)
+
+        git_hook_file = ".git/hooks/#{hook_type}"
 
         if not File.exists?(git_hook_file)
           File.open(git_hook_file, 'w') do |f|
@@ -33,9 +38,10 @@ module Githooks
         end
       end
 
-      def install_git_hook(type, hook)
-        git_hook_file   = ".git/hooks/#{type}"
-        hook_invocation = "githooks run #{hook} $*"
+      def install_git_hook(hook)
+        hook_type       = hook.metadata.type
+        git_hook_file   = ".git/hooks/#{hook_type}"
+        hook_invocation = "githooks run #{hook.name} $*"
 
         lines         = File.readlines(git_hook_file).map(&:rstrip)
         existing_hook = lines.find { |l| l.include?(hook_invocation) }
@@ -67,22 +73,10 @@ module Githooks
         end
       end
 
-      # TODO (2013-05-11) Duplicated, refactor
+      # TODO (2013-06-30) Move validations to Metadata?
       def validate_hook_type(type)
         if not possible_hook_types.include?(type)
           error "The type of the script needs to be one of: #{possible_hook_types.join(', ')}."
-        end
-      end
-
-      def validate_hook(hook)
-        if not hook
-          error "No hook given"
-        end
-
-        script_name = config.hook_path(hook)
-
-        if not File.exist?(script_name) or not File.executable?(script_name)
-          error "File `#{script_name}` doesn't exist or is not executable."
         end
       end
     end

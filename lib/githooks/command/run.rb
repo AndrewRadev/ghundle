@@ -8,10 +8,11 @@ module Githooks
     #
     class Run < Common
       def call
-        name = args.first
-        hook = Hook.new(name)
-        say "Running hook #{hook.name}"
+        name      = args.first
+        hook_path = config.hook_path(name)
+        hook      = Hook.new(Source::Local.new(hook_path))
 
+        say "Running hook #{hook.name}"
         hook.run(*args[1 .. -1])
       end
     end

@@ -5,8 +5,16 @@ module Support
     Pathname.new('test-githooks')
   end
 
-  def create_script(name, contents)
+  def hook_path(path)
+    Support.hooks_root.join(path)
+  end
+
+  def create_script(name, contents = nil)
     filename = File.join(name, 'run')
+    contents ||= <<-EOF
+      #! /bin/sh
+      echo "OK"
+    EOF
 
     ensure_parent_directory(filename)
     write_file(filename, contents)
@@ -42,8 +50,9 @@ module Support
   end
 
   def expect_hook_exists(hook_name)
-    filename = File.join(Support.hooks_root, hook_name)
-    File.exists?(filename).should be_true
-    File.executable?(filename).should be_true
+    filename = Support.hooks_root.join(hook_name)
+    filename.join("run").should be_file
+    filename.join("run").should be_executable
+    filename.join("meta.yml").should be_file
   end
 end

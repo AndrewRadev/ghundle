@@ -25,6 +25,10 @@ module Githooks
         @script_name            = path.basename
       end
 
+      def hook_name
+        path.basename
+      end
+
       def metadata
         @metadata ||=
           begin

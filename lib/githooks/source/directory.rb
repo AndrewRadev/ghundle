@@ -15,6 +15,10 @@ module Githooks
         @source_path = Pathname.new(path)
       end
 
+      def hook_name
+        @source_path.basename
+      end
+
       def metadata
         @metadata ||=
           begin

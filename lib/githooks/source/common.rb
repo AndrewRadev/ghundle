@@ -6,7 +6,7 @@ module Githooks
     #
     class Common
       # Gets the name of the hook based on the url/path it's given
-      def name
+      def hook_name
         raise NotImplementedError
       end
 
