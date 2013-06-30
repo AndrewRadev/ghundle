@@ -14,7 +14,7 @@ module Githooks
       end
 
       def name
-        @local_path.basename
+        @local_path.basename.to_s
       end
 
       def validate

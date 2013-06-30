@@ -17,5 +17,10 @@ module Githooks
       Command::Install.should_receive(:call).with('hook-name')
       Main.exec('install', 'hook-name')
     end
+
+    it "delegates to list-all" do
+      Command::ListAll.should_receive(:call)
+      Main.exec('list-all')
+    end
   end
 end

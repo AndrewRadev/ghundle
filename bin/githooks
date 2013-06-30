@@ -10,9 +10,12 @@ Usage:
 
   githooks <command> [options...]
 
-  <command> can currently be only "run", so
-
-  githooks run <hook-name>
+  commands:
+    - githooks list-all
+    - githooks run <hook-name>
+    - githooks fetch github.com/<username>/<repo>/<path/to/hook/dir>
+    - githooks install <hook-name>
+    - githooks install github.com/<username>/<repo>/<path/to/hook/dir>
 
 EOF
 
