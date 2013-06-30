@@ -27,6 +27,29 @@ module Githooks
         Support.hooks_root.join("test-script/run").should be_executable
         Support.hooks_root.join("test-script/meta.yml").should be_file
       end
+
+      describe "(validation)" do
+        it "validates the presence of the script" do
+          source.validate
+
+          Pathname.new('test-dir/test-script/run').unlink
+          expect { source.validate }.to raise_error
+        end
+
+        it "validates that the script is executable" do
+          source.validate
+
+          File.chmod 0644, 'test-dir/test-script/run'
+          expect { source.validate }.to raise_error
+        end
+
+        it "validates the presence of the metadata file" do
+          source.validate
+
+          Pathname.new('test-dir/test-script/meta.yml').unlink
+          expect { source.validate }.to raise_error
+        end
+      end
     end
   end
 end

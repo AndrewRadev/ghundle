@@ -1,4 +1,4 @@
-require 'open-uri'
+require 'net/http'
 require 'githooks/metadata'
 require 'githooks/source/common'
 
@@ -14,7 +14,7 @@ module Githooks
     #
     # It needs to be fetched to the local hook root in order to use the hook.
     #
-    class Github
+    class Github < Common
       attr_reader :username, :repo, :path
       attr_reader :script_name
 
@@ -28,8 +28,13 @@ module Githooks
       def metadata
         @metadata ||=
           begin
-            url  = raw_github_url(@path.join('meta.yml'))
-            yaml = open(url).read
+            url          = raw_github_url(@path.join('meta.yml'))
+            status, yaml = http_get(url)
+
+            if status != 200
+              raise AppError.new("Couldn't fetch metadata file from #{url}, got response status: #{status}")
+            end
+
             Metadata.new(YAML.load(yaml))
           end
       end
@@ -38,8 +43,12 @@ module Githooks
         destination_path = Pathname.new(destination_path)
         FileUtils.mkdir_p(destination_path)
 
+        status, script = http_get(raw_github_url(@path.join('run')))
+        if status != 200
+          raise AppError.new("Couldn't fetch script file from #{url}, got response status: #{status}")
+        end
+
         destination_path.join('run').open('w') do |f|
-          script = open(raw_github_url(@path.join('run'))).read
           f.write(script)
         end
 
@@ -55,6 +64,13 @@ module Githooks
       end
 
       private
+
+      def http_get(url_string)
+        uri      = URI(url_string)
+        response = Net::HTTP.get_response(uri)
+
+        [response.code.to_i, response.body]
+      end
 
       def parse_description(description)
         components = description.split('/')
