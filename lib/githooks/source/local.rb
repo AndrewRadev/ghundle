@@ -1,3 +1,4 @@
+require 'pathname'
 require 'githooks/metadata'
 require 'githooks/source/common'
 
@@ -8,11 +9,17 @@ module Githooks
     # installed in a repository.
     #
     class Local < Common
-      def initialize(name)
-        @name = name
+      def initialize(local_path)
+        @local_path = Pathname.new(local_path)
+      end
+
+      def name
+        @name ||= File.basename(@local_path)
       end
 
       def validate
+        return if exists?
+
         if not script_path.file?
           raise AppError.new("Script not found: #{script_path}")
         end
@@ -26,27 +33,27 @@ module Githooks
         end
       end
 
+      def exists?
+        script_path.executable? and metadata_path.file?
+      end
+
       def metadata
         validate
         Metadata.from_yaml(metadata_path)
       end
 
       def fetch
-        # Already local, nothing to do
+        self
       end
 
       private
 
       def script_path
-        config.hook_path(@name).join('run')
+        @local_path.join('run')
       end
 
       def metadata_path
-        config.hook_path(@name).join('meta.yml')
-      end
-
-      def config
-        @config ||= Config
+        @local_path.join('meta.yml')
       end
     end
   end

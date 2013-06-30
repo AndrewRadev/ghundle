@@ -4,7 +4,7 @@ require 'githooks/source/local'
 module Githooks
   module Source
     describe Local do
-      let(:source) { Local.new('test-script') }
+      let(:source) { Local.new(Support.hooks_root.join('test-script')) }
 
       before :each do
         create_script(Support.hooks_root.join('test-script'), <<-EOF)

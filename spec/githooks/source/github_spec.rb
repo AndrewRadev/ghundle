@@ -23,7 +23,7 @@ module Githooks
         source.metadata.description.should eq 'remote metadata'
       end
 
-      it "doesn't do anything when fetching" do
+      it "fetches the remote files locally" do
         Support.hooks_root.join("test-hook").should_not be_directory
 
         source.fetch(Support.hooks_root.join("test-hook"))
@@ -31,6 +31,15 @@ module Githooks
         Support.hooks_root.join("test-hook").should be_directory
         Support.hooks_root.join("test-hook/run").should be_executable
         Support.hooks_root.join("test-hook/meta.yml").should be_file
+      end
+
+      it "can fetch twice to the same location" do
+        source.fetch(Support.hooks_root.join("test-hook"))
+        source.fetch(Support.hooks_root.join("test-hook"))
+      end
+
+      it "returns a fetched local source" do
+        source.fetch(Support.hooks_root.join("test-hook")).exists?.should be_true
       end
 
       describe "(validation)" do

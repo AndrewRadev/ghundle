@@ -28,6 +28,15 @@ module Githooks
         Support.hooks_root.join("test-script/meta.yml").should be_file
       end
 
+      it "can fetch twice to the same location" do
+        source.fetch(Support.hooks_root.join("test-script"))
+        source.fetch(Support.hooks_root.join("test-script"))
+      end
+
+      it "returns a fetched local source" do
+        source.fetch(Support.hooks_root.join("test-script")).exists?.should be_true
+      end
+
       describe "(validation)" do
         it "validates the presence of the script" do
           source.validate

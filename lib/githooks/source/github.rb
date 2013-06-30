@@ -41,6 +41,10 @@ module Githooks
 
       def fetch(destination_path)
         destination_path = Pathname.new(destination_path)
+
+        local_source = Local.new(destination_path)
+        return local_source if local_source.exists?
+
         FileUtils.mkdir_p(destination_path)
 
         status, script = http_get(raw_github_url(@path.join('run')))
@@ -57,6 +61,8 @@ module Githooks
         end
 
         File.chmod(0755, destination_path.join('run'))
+
+        local_source
       end
 
       def to_s

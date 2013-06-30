@@ -1,3 +1,4 @@
+require 'pathname'
 require 'githooks/metadata'
 require 'githooks/source/common'
 
@@ -7,7 +8,7 @@ module Githooks
     # directory structure. It needs to be fetched to the local hook root in
     # order to use the hook.
     #
-    class Directory
+    class Directory < Common
       attr_reader :source_path
 
       def initialize(path)
@@ -26,9 +27,14 @@ module Githooks
         validate
         destination_path = Pathname.new(destination_path)
 
+        local_source = Local.new(destination_path)
+        return local_source if local_source.exists?
+
         FileUtils.mkdir_p(destination_path)
         FileUtils.cp source_path.join("meta.yml"), destination_path.join("meta.yml")
         FileUtils.cp source_path.join("run"), destination_path.join("run")
+
+        local_source
       end
 
       def validate
