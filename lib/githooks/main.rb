@@ -17,6 +17,8 @@ module Githooks
       when 'install'  then Command::Install.call(*@args)
       when 'list-all' then Command::ListAll.call(*@args)
       when 'run'      then Command::Run.call(*@args)
+      else
+        raise AppError.new("Unknown command: #{@command}")
       end
     end
   end
