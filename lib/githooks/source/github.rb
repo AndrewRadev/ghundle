@@ -61,7 +61,7 @@ module Githooks
         end
 
         destination_path.join('meta.yml').open('w') do |f|
-          f.write(YAML.dump(metadata))
+          f.write(YAML.dump(metadata.to_h))
         end
 
         File.chmod(0755, destination_path.join('run'))

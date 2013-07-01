@@ -1,5 +1,3 @@
-require 'githooks/config'
-
 module Githooks
   class Metadata
     attr_reader :type, :version, :description
@@ -14,10 +12,12 @@ module Githooks
       @description = data['description']
     end
 
-    private
-
-    def config
-      @config ||= Config
+    def to_h
+      {
+        'type'        => type,
+        'version'     => version,
+        'description' => description,
+      }
     end
   end
 end
