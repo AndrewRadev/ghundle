@@ -1,5 +1,4 @@
-- githooks list
-  - list project hooks
-  - list all hooks
-
-- Lots of documentation
+- List project hooks
+- Documentation
+- Help command, usage
+- Usage message for each command
