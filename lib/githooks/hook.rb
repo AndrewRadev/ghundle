@@ -20,5 +20,9 @@ module Githooks
       source.validate
       system source.script_path.to_s, *args
     end
+
+    def to_s
+      name
+    end
   end
 end
