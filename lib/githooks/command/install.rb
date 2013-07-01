@@ -12,7 +12,10 @@ module Githooks
         local_source = Source::Local.new(config.hook_path(hook_name))
 
         if not local_source.exists?
-          Fetch.call(args)
+          # try to fetch it instead
+          Fetch.call(*args)
+          real_hook_name = File.basename(hook_name)
+          local_source   = Source::Local.new(config.hook_path(real_hook_name))
         end
 
         hook = Hook.new(local_source)
