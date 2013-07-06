@@ -22,5 +22,10 @@ module Githooks
       Command::ListAll.should_receive(:call)
       Main.exec('list-all')
     end
+
+    it "delegates to uninstall" do
+      Command::Uninstall.should_receive(:call).with('hook-name')
+      Main.exec('uninstall', 'hook-name')
+    end
   end
 end
