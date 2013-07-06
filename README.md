@@ -1,39 +1,59 @@
-*This project is not completely done yet. The README describes ideas for the future API.*
+*This project is not completely done yet and the API is still in flux.*
 
 ## Usage
 
-Fetch a hook from the local filesystem (see below for directory format):
+Fetch a hook from the local filesystem, useful for testing (see below for
+directory format):
 
     $ githooks fetch ~/projects/hooks/ctags
-    >> Copying hook to ~/.githooks/post-merge/ctags...
+    >> Copying hook to ~/.githooks/ctags...
 
-Fetch a hook from a remote github repo (NOT DONE):
+Fetch a hook from a remote github repo:
 
-    $ githooks fetch github.com/AndrewRadev/my-magical-hooks/ctags
-    >> Copying hook to ~/.githooks/post-merge/ctags...
+    $ githooks fetch github.com/AndrewRadev/my-hooks-repo/ctags
+    >> Copying hook to ~/.githooks/ctags...
 
-List all hooks, installed in the project (NOT DONE):
+List all available hooks:
 
-    $ githooks list
+    $ githooks list-all
 
-    post-merge/rails-migrations :: github.com/AndrewRadev/githooks-storage/rails-migrations
-      Runs `rake db:migrate` if any new migrations were added.
+    ctags
+      - type:        post-checkout
+      - description: Regenerates a project's tag files whenever a `git checkout` is run.
 
-    post-merge/ruby-bundler :: github.com/AndrewRadev/githooks-storage/ruby-bundler
-      Runs `bundle install` if Gemfile.lock was changed.
+    ruby-bundler
+      - type:        post-merge
+      - description: Runs a `bundle install` on every merge (this includes pulls).
 
-    <hook-type>/<hook-name> :: <remote-source>
-      <description>
+    <hook-name>
+      - type:        <type>
+      - description: <description>
+
+List all hooks, installed in the project:
+
+    $ githooks list-installed
+
+    ctags
+      - type:        post-checkout
+      - description: Regenerates a project's tag files whenever a `git checkout` is run.
 
 Install a new hook in the project from the githooks storage in `~/.githooks`
-(this will eventually automatically fetch & install whenever possible):
+(this automatically fetches if given a fetch-compatible url):
 
-    $ githooks install post-merge/ruby-bundler
-    $ githooks install <hook-type>/<hook-name>
+    $ githooks install ruby-bundler
+    $ githooks install <hook-name>
+
+    $ githooks install github.com/AndrewRadev/my-hooks-repo/ctags
+    $ githooks install <anything that `githooks fetch` accepts>
+
+Uninstall a hook:
+
+    $ githooks uninstall ruby-bundler
+    $ githooks uninstall <hook-name>
 
 Run a hook manually (it would need some arguments to work, see `man githooks`):
 
-    $ githooks run post-merge/rails-migrations <args>
+    $ githooks run rails-migrations <args>
 
 ## Internals
 
@@ -58,10 +78,10 @@ description: <description of the hook's effect>
 Fetching from a remote repo is still not implemented.
 
 Each hook is written to the relevant `.git/hooks/*` file. For example, with the
-abovementioned `post-merge/ruby-bundler` and `post-merge/rails-migrations`
+abovementioned `ruby-bundler` and `rails-migrations`
 would result in the `.git/hooks/post-merge` file looking like this:
 
     ## Start of githooks scripts
-    githooks run post-merge/ruby-bundler
-    githooks run post-merge/rails-migrations
+    githooks run ruby-bundler
+    githooks run rails-migrations
     ## End of githooks scripts

@@ -16,6 +16,8 @@ Usage:
     - githooks fetch github.com/<username>/<repo>/<path/to/hook/dir>
     - githooks install <hook-name>
     - githooks install github.com/<username>/<repo>/<path/to/hook/dir>
+    - githooks list-installed
+    - githooks uninstall <hook-name>
 
 EOF
 
