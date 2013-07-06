@@ -16,12 +16,7 @@ module Githooks
           next if not File.directory?(path)
 
           hook = Hook.new(Source::Local.new(path))
-
-          description = [
-            hook.name.foreground(:yellow),
-            "  - type:        " + hook.metadata.type,
-            "  - description: " + hook.metadata.description,
-          ].join("\n")
+          hook_description(hook)
         end.join("\n")
       end
     end

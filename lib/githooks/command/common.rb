@@ -22,6 +22,14 @@ module Githooks
 
       private
 
+      def hook_description(hook)
+        [
+          hook.name.foreground(:yellow),
+          "  - type:        #{hook.metadata.type}",
+          "  - description: #{hook.metadata.description}",
+        ].join("\n")
+      end
+
       def say(message)
         print '>> '.foreground(:green).bright
         puts message.foreground(:green)
