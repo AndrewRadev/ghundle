@@ -75,8 +75,6 @@ type: <hook-type>
 description: <description of the hook's effect>
 ```
 
-Fetching from a remote repo is still not implemented.
-
 Each hook is written to the relevant `.git/hooks/*` file. For example, with the
 abovementioned `ruby-bundler` and `rails-migrations`
 would result in the `.git/hooks/post-merge` file looking like this:
