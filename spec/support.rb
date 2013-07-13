@@ -31,7 +31,7 @@ module Support
 
   def test_metadata(overrides = {})
     {
-      'type'        => 'post-checkout',
+      'types'       => ['post-checkout'],
       'version'     => '0.0.0',
       'description' => 'description',
     }.merge(overrides)

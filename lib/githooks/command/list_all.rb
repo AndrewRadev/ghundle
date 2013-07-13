@@ -6,9 +6,7 @@ module Githooks
     #
     class ListAll < Common
       def call
-        puts
-        puts output
-        puts
+        puts output.strip
       end
 
       def output

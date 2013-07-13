@@ -1,3 +1,4 @@
+require 'set'
 require 'githooks/command'
 
 module Githooks
@@ -6,13 +7,11 @@ module Githooks
     #
     class ListInstalled < Common
       def call
-        puts
-        puts output
-        puts
+        puts output.strip
       end
 
       def output
-        hook_names = []
+        hook_names = Set.new
 
         Dir['.git/hooks/*'].each do |filename|
           File.open(filename) do |f|
@@ -24,7 +23,7 @@ module Githooks
           end
         end
 
-        hook_names.map do |hook_name|
+        hook_names.sort.map do |hook_name|
           source = Source::Local.new(config.hook_path(hook_name))
 
           if source.exists?

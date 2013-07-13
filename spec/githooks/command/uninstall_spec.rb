@@ -9,7 +9,7 @@ module Githooks
       before :each do
         FileUtils.mkdir_p '.git/hooks'
         create_script(hook_path('foo'))
-        create_metadata(hook_path('foo'), 'type' => 'post-merge')
+        create_metadata(hook_path('foo'), 'types' => ['post-merge'])
         Install.call('foo')
       end
 

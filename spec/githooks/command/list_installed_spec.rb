@@ -40,6 +40,14 @@ module Githooks
 
         instance.output.should include 'Hook `nonexistent` does not exist'
       end
+
+      it "shows each hook only once per installed file" do
+        install_hook('one', {
+          'types'       => ['post-merge', 'pre-receive'],
+          'description' => 'A test hook',
+        })
+        instance.output.split("\n").grep(/A test hook/).should have(1).items
+      end
     end
   end
 end

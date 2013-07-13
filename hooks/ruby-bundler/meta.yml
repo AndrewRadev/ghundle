@@ -1,5 +1,5 @@
 ---
-type: post-merge
+types: [post-merge, post-rewrite]
 version: 0.0.1
 description: >
-  Runs a `bundle install` on every merge (this includes pulls).
+  Runs a `bundle install` on every merge or rebase

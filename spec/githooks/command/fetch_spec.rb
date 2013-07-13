@@ -7,7 +7,7 @@ module Githooks
       describe "(local path)" do
         it "fetches a git hook from a local directory and puts it in its right place" do
           ensure_parent_directory 'hook-source/test-hook/run'
-          create_metadata('hook-source/test-hook', 'type' => 'post-merge')
+          create_metadata('hook-source/test-hook', 'types' => ['post-merge'])
           create_script('hook-source/test-hook', <<-EOF)
             #! /bin/sh
             echo "OK"
@@ -16,6 +16,18 @@ module Githooks
           Fetch.call('hook-source/test-hook')
 
           expect_hook_exists 'test-hook'
+        end
+
+        it "can fetch multiple hooks" do
+          create_metadata('hook-source/first-hook')
+          create_script('hook-source/first-hook')
+          create_metadata('hook-source/second-hook')
+          create_script('hook-source/second-hook')
+
+          Fetch.call('hook-source/first-hook', 'hook-source/second-hook')
+
+          expect_hook_exists 'first-hook'
+          expect_hook_exists 'second-hook'
         end
       end
 

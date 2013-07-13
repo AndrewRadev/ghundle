@@ -1,5 +1,5 @@
 ---
-type: post-checkout
+types: [post-checkout]
 version: 0.0.1
 description: >
   Regenerates a project's tag files whenever a `git checkout` is run.

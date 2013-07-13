@@ -1,20 +1,20 @@
 module Githooks
   class Metadata
-    attr_reader :type, :version, :description
+    attr_reader :types, :version, :description
 
     def self.from_yaml(filename)
       new(YAML.load_file(filename))
     end
 
     def initialize(data = {})
-      @type        = data['type']
+      @types       = data['types']
       @version     = data['version']
       @description = data['description']
     end
 
     def to_h
       {
-        'type'        => type,
+        'types'       => types,
         'version'     => version,
         'description' => description,
       }

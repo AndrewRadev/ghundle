@@ -25,7 +25,7 @@ module Githooks
       def hook_description(hook)
         [
           hook.name.foreground(:yellow),
-          "  - type:        #{hook.metadata.type}",
+          "  - types:       #{hook.metadata.types.join(', ')}",
           "  - description: #{hook.metadata.description}",
         ].join("\n")
       end
