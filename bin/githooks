@@ -3,24 +3,13 @@
 $: << File.expand_path('../../lib', __FILE__)
 
 require 'githooks/main'
+require 'githooks/options_parser'
 
-if ARGV.size < 1
-  puts <<EOF
-Usage:
+options_parser = Githooks::OptionsParser.new(ARGV)
+_options = options_parser.parse
 
-  githooks <command> [options...]
-
-  commands:
-    - githooks list-all
-    - githooks run <hook-name>
-    - githooks fetch github.com/<username>/<repo>/<path/to/hook/dir>
-    - githooks install <hook-name>
-    - githooks install github.com/<username>/<repo>/<path/to/hook/dir>
-    - githooks list-installed
-    - githooks uninstall <hook-name>
-
-EOF
-
+if ARGV.length < 1
+  puts options_parser.usage
   exit 1
 end
 
@@ -28,7 +17,5 @@ begin
   Githooks::Main.exec(*ARGV.dup)
 rescue Githooks::AppError => e
   puts e.message
-  puts
-  puts e.usage
   exit 1
 end
