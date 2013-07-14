@@ -1,7 +1,0 @@
-require 'githooks/command/common'
-require 'githooks/command/fetch'
-require 'githooks/command/install'
-require 'githooks/command/list_all'
-require 'githooks/command/list_installed'
-require 'githooks/command/run'
-require 'githooks/command/uninstall'

@@ -1,0 +1,7 @@
+require 'ghundle/command/common'
+require 'ghundle/command/fetch'
+require 'ghundle/command/install'
+require 'ghundle/command/list_all'
+require 'ghundle/command/list_installed'
+require 'ghundle/command/run'
+require 'ghundle/command/uninstall'

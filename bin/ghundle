@@ -1,0 +1,21 @@
+#! /usr/bin/env ruby
+
+$: << File.expand_path('../../lib', __FILE__)
+
+require 'ghundle/main'
+require 'ghundle/options_parser'
+
+options_parser = Ghundle::OptionsParser.new(ARGV)
+_options = options_parser.parse
+
+if ARGV.length < 1
+  puts options_parser.usage
+  exit 1
+end
+
+begin
+  Ghundle::Main.exec(*ARGV.dup)
+rescue Ghundle::AppError => e
+  puts e.message
+  exit 1
+end

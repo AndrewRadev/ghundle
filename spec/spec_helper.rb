@@ -7,11 +7,11 @@ require 'pp'
 require 'fileutils'
 require 'tmpdir'
 require 'support'
-require 'githooks/main'
+require 'ghundle/main'
 
-Githooks::Config.hooks_root = Support.hooks_root
+Ghundle::Config.hooks_root = Support.hooks_root
 
-class Githooks::Command::Common
+class Ghundle::Command::Common
   def say(*args)
     # stubbed out in test mode
   end

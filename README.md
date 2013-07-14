@@ -5,17 +5,17 @@
 Fetch a hook from the local filesystem, useful for testing (see below for
 directory format):
 
-    $ githooks fetch ~/projects/hooks/ctags
-    >> Copying hook to ~/.githooks/ctags...
+    $ ghundle fetch ~/projects/hooks/ctags
+    >> Copying hook to ~/.ghundle/ctags...
 
 Fetch a hook from a remote github repo:
 
-    $ githooks fetch github.com/AndrewRadev/my-hooks-repo/ctags
-    >> Copying hook to ~/.githooks/ctags...
+    $ ghundle fetch github.com/AndrewRadev/my-hooks-repo/ctags
+    >> Copying hook to ~/.ghundle/ctags...
 
 List all available hooks:
 
-    $ githooks list-all
+    $ ghundle list-all
 
     ctags
       - types:       post-checkout
@@ -31,41 +31,41 @@ List all available hooks:
 
 List all hooks, installed in the project:
 
-    $ githooks list-installed
+    $ ghundle list-installed
 
     ctags
       - types:       post-checkout
       - description: Regenerates a project's tag files whenever a `git checkout` is run.
 
-Install a new hook in the project from the githooks storage in `~/.githooks`
+Install a new hook in the project from the ghundle storage in `~/.ghundle`
 (this automatically fetches if given a fetch-compatible url):
 
-    $ githooks install ruby-bundler
-    $ githooks install <hook-name>
+    $ ghundle install ruby-bundler
+    $ ghundle install <hook-name>
 
-    $ githooks install github.com/AndrewRadev/my-hooks-repo/ctags
-    $ githooks install <anything that `githooks fetch` accepts>
+    $ ghundle install github.com/AndrewRadev/my-hooks-repo/ctags
+    $ ghundle install <anything that `ghundle fetch` accepts>
 
 Uninstall a hook:
 
-    $ githooks uninstall ruby-bundler
-    $ githooks uninstall <hook-name>
+    $ ghundle uninstall ruby-bundler
+    $ ghundle uninstall <hook-name>
 
-Run a hook manually (it would need some arguments to work, see `man githooks`):
+Run a hook manually (it would need some arguments to work, see `man ghundle`):
 
-    $ githooks run rails-migrations <args>
+    $ ghundle run rails-migrations <args>
 
 ## Internals
 
-The format of the source of a githooks hook is a directory with the following
+The format of the source of a ghundle hook is a directory with the following
 structure:
 
     hook-name/
       meta.yml
       run
 
-After running `githooks fetch hook-name`, the `run` file and the metadata in
-`meta.yml` will be processed and stored in `~/.githooks`. The `run` file is the
+After running `ghundle fetch hook-name`, the `run` file and the metadata in
+`meta.yml` will be processed and stored in `~/.ghundle`. The `run` file is the
 actual script to run and it can be written any way you like. The `meta.yml`
 file contains metadata and should have the form:
 
@@ -80,7 +80,7 @@ Each hook is written to the relevant `.git/hooks/*` file. For example, with the
 abovementioned `ruby-bundler` and `rails-migrations`
 would result in the `.git/hooks/post-merge` file looking like this:
 
-    ## Start of githooks scripts
-    githooks run ruby-bundler
-    githooks run rails-migrations
-    ## End of githooks scripts
+    ## Start of ghundle scripts
+    ghundle run ruby-bundler
+    ghundle run rails-migrations
+    ## End of ghundle scripts

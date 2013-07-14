@@ -2,7 +2,7 @@ require 'fileutils'
 
 module Support
   def self.hooks_root
-    Pathname.new('test-githooks')
+    Pathname.new('test-ghundle')
   end
 
   def hook_path(path)
