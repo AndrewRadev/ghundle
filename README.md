@@ -81,6 +81,6 @@ abovementioned `ruby-bundler` and `rails-migrations`
 would result in the `.git/hooks/post-merge` file looking like this:
 
     ## Start of ghundle scripts
-    ghundle run ruby-bundler
-    ghundle run rails-migrations
+    ghundle run ruby-bundler $*
+    ghundle run rails-migrations $*
     ## End of ghundle scripts
