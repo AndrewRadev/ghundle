@@ -17,7 +17,7 @@ module Ghundle
     def to_h
       {
         'types'       => types,
-        'version'     => version,
+        'version'     => version.to_s,
         'description' => description,
       }
     end
