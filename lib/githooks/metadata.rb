@@ -1,3 +1,5 @@
+require 'githooks/hook_version'
+
 module Githooks
   class Metadata
     attr_reader :types, :version, :description
@@ -7,8 +9,8 @@ module Githooks
     end
 
     def initialize(data = {})
+      @version     = HookVersion.new(data['version'])
       @types       = data['types']
-      @version     = data['version']
       @description = data['description']
     end
 
