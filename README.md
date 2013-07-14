@@ -18,11 +18,11 @@ List all available hooks:
     $ githooks list-all
 
     ctags
-      - type:        post-checkout
+      - types:       post-checkout
       - description: Regenerates a project's tag files whenever a `git checkout` is run.
 
     ruby-bundler
-      - type:        post-merge
+      - types:       post-merge, post-rewrite
       - description: Runs a `bundle install` on every merge (this includes pulls).
 
     <hook-name>
@@ -34,7 +34,7 @@ List all hooks, installed in the project:
     $ githooks list-installed
 
     ctags
-      - type:        post-checkout
+      - types:       post-checkout
       - description: Regenerates a project's tag files whenever a `git checkout` is run.
 
 Install a new hook in the project from the githooks storage in `~/.githooks`
@@ -71,7 +71,8 @@ file contains metadata and should have the form:
 
 ``` yaml
 ---
-type: <hook-type>
+types: [<hook-type1>, <hook-type2>, ...]
+version: <major>.<minor>.<patch>
 description: <description of the hook's effect>
 ```
 
