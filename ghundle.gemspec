@@ -6,6 +6,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Andrew Radev']
   s.email       = ['andrey.radev@gmail.com']
+  s.license     = 'MIT'
   s.homepage    = 'http://github.com/AndrewRadev/ghundle'
   s.summary     = 'A package manager for git hooks'
   s.description = <<-D
