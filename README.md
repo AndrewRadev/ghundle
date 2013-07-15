@@ -1,4 +1,8 @@
-*This project is not completely done yet and the API is still in flux.*
+# Ghundle
+
+A package manager for git hooks.
+
+*Note: This project is not completely "ready" yet and the API is still in flux.*
 
 ## Usage
 
