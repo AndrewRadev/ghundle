@@ -30,7 +30,7 @@ List all available hooks:
       - description: Runs a `bundle install` on every merge (this includes pulls).
 
     <hook-name>
-      - type:        <type>
+      - types:       <type1>, <type2>, ...
       - description: <description>
 
 List all hooks, installed in the project:
