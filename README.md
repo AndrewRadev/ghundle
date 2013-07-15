@@ -51,7 +51,7 @@ Uninstall a hook:
     $ ghundle uninstall ruby-bundler
     $ ghundle uninstall <hook-name>
 
-Run a hook manually (it would need some arguments to work, see `man ghundle`):
+Run a hook manually (it would need some arguments to work, see `man githooks`):
 
     $ ghundle run rails-migrations <args>
 
