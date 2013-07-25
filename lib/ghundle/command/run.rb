@@ -13,7 +13,15 @@ module Ghundle
         hook      = Hook.new(Source::Local.new(hook_path))
 
         say "Running hook #{hook.name}"
+
+        Signal.trap('INT') do
+          say "Ctrl+C caught, aborting"
+          exit
+        end
+
         hook.run(*args[1 .. -1])
+
+        Signal.trap('INT', 'DEFAULT')
       end
     end
   end
