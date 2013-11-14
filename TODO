@@ -1,5 +1,4 @@
-- List project hooks
-- Documentation
-- Help command, usage
 - Usage message for each command
 - Shell completion
+
+- Integrate hookup https://github.com/tpope/hookup
