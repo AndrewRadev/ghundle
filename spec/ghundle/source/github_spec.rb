@@ -53,6 +53,12 @@ module Ghundle
           expect { source.metadata }.to raise_error
         end
       end
+
+      describe "(representation)" do
+        it "looks like its path" do
+          source.to_s.should eq "path/to/test-hook"
+        end
+      end
     end
   end
 end

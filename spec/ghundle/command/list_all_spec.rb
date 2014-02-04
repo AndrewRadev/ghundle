@@ -6,6 +6,12 @@ module Ghundle
     describe ListAll do
       let(:instance) { ListAll.new }
 
+      it "runs as expected" do
+        stdout, stderr = capture_io { instance.call }
+        stdout.should_not be_empty
+        stderr.should be_empty
+      end
+
       it "lists all available hooks in the hook root" do
         create_script(hook_path('one'))
         create_metadata(hook_path('one'))

@@ -27,6 +27,13 @@ module Ghundle
         instance.output.should_not include 'three'
       end
 
+      it "runs as expected" do
+        install_hook('one')
+        stdout, stderr = capture_io { instance.call }
+        stdout.should_not be_empty
+        stderr.should be_empty
+      end
+
       it "shows hook descriptions" do
         install_hook('one', 'description' => 'A test hook')
         instance.output.should include 'A test hook'

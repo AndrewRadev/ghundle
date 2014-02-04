@@ -55,4 +55,14 @@ module Support
     filename.join("run").should be_executable
     filename.join("meta.yml").should be_file
   end
+
+  def capture_io(&block)
+    out, err = "", ""
+    stdout, $stdout = $stdout, StringIO.new(out)
+    stderr, $stderr = $stderr, StringIO.new(err)
+    yield
+    [out, err]
+  ensure
+    $stdout, $stderr = stdout, stderr
+  end
 end
