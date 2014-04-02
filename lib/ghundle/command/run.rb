@@ -7,6 +7,11 @@ module Ghundle
     # arguments on the command-line.
     #
     class Run < Common
+      @@abort = lambda do
+        say "Ctrl+C caught, aborting"
+        exit
+      end
+
       def call
         name      = args.first
         hook_path = config.hook_path(name)
@@ -14,10 +19,7 @@ module Ghundle
 
         say "Running hook #{hook.name}"
 
-        Signal.trap('INT') do
-          say "Ctrl+C caught, aborting"
-          exit
-        end
+        Signal.trap('INT', @@abort)
 
         hook.run(*args[1 .. -1])
 

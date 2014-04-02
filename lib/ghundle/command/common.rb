@@ -24,7 +24,7 @@ module Ghundle
 
       def hook_description(hook)
         [
-          hook.name.foreground(:yellow),
+          Rainbow(hook.name).yellow,
           "  - version:     #{hook.metadata.version}",
           "  - types:       #{hook.metadata.types.join(', ')}",
           "  - description: #{hook.metadata.description}",
@@ -32,8 +32,8 @@ module Ghundle
       end
 
       def say(message)
-        print '>> '.foreground(:green).bright
-        puts message.foreground(:green)
+        print Rainbow('>> ').green.bright
+        puts Rainbow(message).green
       end
 
       def error(*args)

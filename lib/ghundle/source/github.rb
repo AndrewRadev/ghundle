@@ -70,7 +70,7 @@ module Ghundle
       end
 
       def to_s
-        @path
+        @path.to_s
       end
 
       private

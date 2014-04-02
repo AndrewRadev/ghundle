@@ -60,7 +60,7 @@ module Ghundle
       end
 
       def to_s
-        source_path
+        source_path.to_s
       end
     end
   end

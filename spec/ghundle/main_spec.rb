@@ -32,5 +32,9 @@ module Ghundle
       Command::ListInstalled.should_receive(:call)
       Main.exec('list-installed')
     end
+
+    it "complains if there's an invalid command" do
+      expect(-> { Main.exec('ass', 'fishfingers') }).to raise_error(AppError)
+    end
   end
 end

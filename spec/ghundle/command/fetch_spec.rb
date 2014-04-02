@@ -58,6 +58,12 @@ module Ghundle
           Fetch.call('test-script')
         end
       end
+
+      describe "(invalid input)" do
+        it "complains helpfully" do
+          expect(-> { Fetch.call('broken glass') }).to raise_error(AppError)
+        end
+      end
     end
   end
 end

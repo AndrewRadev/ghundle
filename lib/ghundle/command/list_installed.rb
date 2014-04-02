@@ -29,7 +29,7 @@ module Ghundle
           if source.exists?
             hook_description(Hook.new(source))
           else
-            "Warning: Hook `#{hook_name}` does not exist".foreground(:red)
+            Rainbow("Warning: Hook `#{hook_name}` does not exist").red
           end
         end.join("\n")
       end
