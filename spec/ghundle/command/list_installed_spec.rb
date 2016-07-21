@@ -22,9 +22,9 @@ module Ghundle
         create_script(hook_path('three'))
         create_metadata(hook_path('three'))
 
-        instance.output.should include 'one'
-        instance.output.should include 'two'
-        instance.output.should_not include 'three'
+        expect(instance.output).to include 'one'
+        expect(instance.output).to include 'two'
+        expect(instance.output).to_not include 'three'
       end
 
       it "runs as expected" do
@@ -36,7 +36,7 @@ module Ghundle
 
       it "shows hook descriptions" do
         install_hook('one', 'description' => 'A test hook')
-        instance.output.should include 'A test hook'
+        expect(instance.output).to include 'A test hook'
       end
 
       it "notifies for broken hooks" do
@@ -45,7 +45,7 @@ module Ghundle
           'ghundle run nonexistent $*',
         ].join("\n"))
 
-        instance.output.should include 'Hook `nonexistent` does not exist'
+        expect(instance.output).to include 'Hook `nonexistent` does not exist'
       end
 
       it "shows each hook only once per installed file" do
@@ -53,7 +53,7 @@ module Ghundle
           'types'       => ['post-merge', 'pre-receive'],
           'description' => 'A test hook',
         })
-        instance.output.split("\n").grep(/A test hook/).length.should eq 1
+        expect(instance.output.split("\n").grep(/A test hook/).length).to eq 1
       end
     end
   end

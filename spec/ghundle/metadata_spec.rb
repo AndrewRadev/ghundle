@@ -11,9 +11,9 @@ module Ghundle
       }
 
       unserialized = Metadata.new(raw_data).to_h
-      unserialized.should eq raw_data
+      expect(unserialized).to eq raw_data
 
-      Metadata.new(unserialized).to_h.should eq raw_data
+      expect(Metadata.new(unserialized).to_h).to eq raw_data
     end
   end
 end

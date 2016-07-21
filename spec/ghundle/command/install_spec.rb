@@ -16,8 +16,8 @@ module Ghundle
 
         Install.call('foo')
 
-        File.exists?('.git/hooks/post-merge').should be_truthy
-        File.executable?('.git/hooks/post-merge').should be_truthy
+        expect(File.exists?('.git/hooks/post-merge')).to be_truthy
+        expect(File.executable?('.git/hooks/post-merge')).to be_truthy
       end
 
       it "can create multiple hooks" do
@@ -28,8 +28,8 @@ module Ghundle
 
         Install.call('one', 'two')
 
-        File.executable?('.git/hooks/post-merge').should be_truthy
-        File.executable?('.git/hooks/post-checkout').should be_truthy
+        expect(File.executable?('.git/hooks/post-merge')).to be_truthy
+        expect(File.executable?('.git/hooks/post-checkout')).to be_truthy
       end
 
       it "adds the hooks to the relevant git hook files" do
@@ -38,8 +38,8 @@ module Ghundle
 
         Install.call('foo')
 
-        File.read('.git/hooks/post-merge').should include 'ghundle run foo $*'
-        File.read('.git/hooks/pre-receive').should include 'ghundle run foo $*'
+        expect(File.read('.git/hooks/post-merge')).to include 'ghundle run foo $*'
+        expect(File.read('.git/hooks/pre-receive')).to include 'ghundle run foo $*'
       end
     end
   end

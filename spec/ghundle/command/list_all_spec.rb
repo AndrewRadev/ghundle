@@ -18,15 +18,15 @@ module Ghundle
         create_script(hook_path('two'))
         create_metadata(hook_path('two'))
 
-        instance.output.should include 'one'
-        instance.output.should include 'two'
+        expect(instance.output).to include 'one'
+        expect(instance.output).to include 'two'
       end
 
       it "shows hook descriptions" do
         create_script(hook_path('one'))
         create_metadata(hook_path('one'), 'description' => 'A test hook')
 
-        instance.output.should include 'A test hook'
+        expect(instance.output).to include 'A test hook'
       end
 
       it "ignores non-directories in the hook root" do
@@ -34,7 +34,7 @@ module Ghundle
         create_metadata(hook_path('one'))
         File.open(hook_path('non-directory'), 'w') { |f| f.write('foo') }
 
-        instance.output.should_not include 'non-directory'
+        expect(instance.output).to_not include 'non-directory'
       end
     end
   end

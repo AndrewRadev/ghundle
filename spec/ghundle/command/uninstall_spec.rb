@@ -14,10 +14,10 @@ module Ghundle
       end
 
       it "removes the hook from its hook file" do
-        IO.read('.git/hooks/post-merge').should include 'ghundle run foo'
+        expect(IO.read('.git/hooks/post-merge')).to include 'ghundle run foo'
 
         Uninstall.call('foo')
-        IO.read('.git/hooks/post-merge').should_not include 'ghundle run foo'
+        expect(IO.read('.git/hooks/post-merge')).to_not include 'ghundle run foo'
       end
 
       it "is idempotent" do

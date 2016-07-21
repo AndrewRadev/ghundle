@@ -51,9 +51,9 @@ module Support
 
   def expect_hook_exists(hook_name)
     filename = Support.hooks_root.join(hook_name)
-    filename.join("run").should be_file
-    filename.join("run").should be_executable
-    filename.join("meta.yml").should be_file
+    expect(filename.join("run")).to be_file
+    expect(filename.join("run")).to be_executable
+    expect(filename.join("meta.yml")).to be_file
   end
 
   def capture_io(&block)

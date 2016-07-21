@@ -15,17 +15,17 @@ module Ghundle
       end
 
       it "fetches the metadata from the local script" do
-        source.metadata.description.should eq 'One two three'
+        expect(source.metadata.description).to eq 'One two three'
       end
 
       it "copies the relevant file to the hook root" do
-        Support.hooks_root.join("test-script").should_not be_directory
+        expect(Support.hooks_root.join("test-script")).to_not be_directory
 
         source.fetch(Support.hooks_root.join("test-script"))
 
-        Support.hooks_root.join("test-script").should be_directory
-        Support.hooks_root.join("test-script/run").should be_executable
-        Support.hooks_root.join("test-script/meta.yml").should be_file
+        expect(Support.hooks_root.join("test-script")).to be_directory
+        expect(Support.hooks_root.join("test-script/run")).to be_executable
+        expect(Support.hooks_root.join("test-script/meta.yml")).to be_file
       end
 
       it "can fetch twice to the same location" do
@@ -34,7 +34,7 @@ module Ghundle
       end
 
       it "returns a fetched local source" do
-        source.fetch(Support.hooks_root.join("test-script")).exists?.should be_truthy
+        expect(source.fetch(Support.hooks_root.join("test-script")).exists?).to be_truthy
       end
 
       describe "(validation)" do

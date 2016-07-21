@@ -13,8 +13,8 @@ module Ghundle
 
         Run.call('test-hook')
 
-        File.exists?('test-hook-result').should be_truthy
-        File.read('test-hook-result').strip.should eq 'OK'
+        expect(File.exists?('test-hook-result')).to be_truthy
+        expect(File.read('test-hook-result').strip).to eq 'OK'
       end
 
       it "gives the positional arguments to the script" do
@@ -26,8 +26,8 @@ module Ghundle
 
         Run.call('test-hook', 'one', 'two')
 
-        File.exists?('test-hook-result').should be_truthy
-        File.read('test-hook-result').strip.should eq 'one + two'
+        expect(File.exists?('test-hook-result')).to be_truthy
+        expect(File.read('test-hook-result').strip).to eq 'one + two'
       end
     end
   end

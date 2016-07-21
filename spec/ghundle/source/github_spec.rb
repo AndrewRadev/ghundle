@@ -20,17 +20,17 @@ module Ghundle
       end
 
       it "fetches the metadata from the remote file" do
-        source.metadata.description.should eq 'remote metadata'
+        expect(source.metadata.description).to eq 'remote metadata'
       end
 
       it "fetches the remote files locally" do
-        Support.hooks_root.join("test-hook").should_not be_directory
+        expect(Support.hooks_root.join("test-hook")).to_not be_directory
 
         source.fetch(Support.hooks_root.join("test-hook"))
 
-        Support.hooks_root.join("test-hook").should be_directory
-        Support.hooks_root.join("test-hook/run").should be_executable
-        Support.hooks_root.join("test-hook/meta.yml").should be_file
+        expect(Support.hooks_root.join("test-hook")).to be_directory
+        expect(Support.hooks_root.join("test-hook/run")).to be_executable
+        expect(Support.hooks_root.join("test-hook/meta.yml")).to be_file
       end
 
       it "can fetch twice to the same location" do
@@ -39,7 +39,7 @@ module Ghundle
       end
 
       it "returns a fetched local source" do
-        source.fetch(Support.hooks_root.join("test-hook")).exists?.should be_truthy
+        expect(source.fetch(Support.hooks_root.join("test-hook")).exists?).to be_truthy
       end
 
       describe "(validation)" do

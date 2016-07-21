@@ -15,7 +15,7 @@ module Ghundle
       end
 
       it "fetches the metadata from the local script" do
-        source.metadata.description.should eq 'One two three'
+        expect(source.metadata.description).to eq 'One two three'
       end
 
       it "doesn't do anything when fetching" do
