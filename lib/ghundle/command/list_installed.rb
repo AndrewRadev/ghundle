@@ -16,7 +16,7 @@ module Ghundle
         Dir['.git/hooks/*'].each do |filename|
           File.open(filename) do |f|
             f.each_line do |line|
-              if line =~ /^ghundle run (.*) \$\*/
+              if line =~ /^\s*ghundle run (.*) \$\*/
                 hook_names << $1.strip
               end
             end

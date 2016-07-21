@@ -60,13 +60,19 @@ module Ghundle
           end
 
           say "Installing hook #{hook} for #{hook_type}"
-          end_line_index = lines.rindex { |l| l =~ /^# End of ghundle scripts/ }
+          end_line_index = lines.rindex { |l| l =~ /^\s*# End of ghundle invocations/ }
 
           if end_line_index
             lines.insert(end_line_index, hook_invocation)
           else
             lines << '# Start of ghundle scripts'
-            lines << hook_invocation
+            lines << "if which ghundle 2>&1 > /dev/null; then"
+            lines << '  # Start of ghundle invocations'
+            lines << "  #{hook_invocation}"
+            lines << '  # End of ghundle invocations'
+            lines << "else"
+            lines << "  echo \"ghundle is not installed, not running ghundle hooks\""
+            lines << 'fi'
             lines << '# End of ghundle scripts'
           end
 
