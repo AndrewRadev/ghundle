@@ -39,18 +39,18 @@ module Ghundle
       end
 
       it "returns a fetched local source" do
-        source.fetch(Support.hooks_root.join("test-hook")).exists?.should be_true
+        source.fetch(Support.hooks_root.join("test-hook")).exists?.should be_truthy
       end
 
       describe "(validation)" do
         it "validates the presence of the script" do
           FakeWeb.register_uri(:get, script_url, :status => 404)
-          expect { source.fetch('stub') }.to raise_error
+          expect { source.fetch('stub') }.to raise_error AppError
         end
 
         it "validates the presence of the metadata file" do
           FakeWeb.register_uri(:get, metadata_url, :status => 404)
-          expect { source.metadata }.to raise_error
+          expect { source.metadata }.to raise_error AppError
         end
       end
 

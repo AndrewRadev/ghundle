@@ -16,8 +16,8 @@ module Ghundle
 
         Install.call('foo')
 
-        File.exists?('.git/hooks/post-merge').should be_true
-        File.executable?('.git/hooks/post-merge').should be_true
+        File.exists?('.git/hooks/post-merge').should be_truthy
+        File.executable?('.git/hooks/post-merge').should be_truthy
       end
 
       it "can create multiple hooks" do
@@ -28,8 +28,8 @@ module Ghundle
 
         Install.call('one', 'two')
 
-        File.executable?('.git/hooks/post-merge').should be_true
-        File.executable?('.git/hooks/post-checkout').should be_true
+        File.executable?('.git/hooks/post-merge').should be_truthy
+        File.executable?('.git/hooks/post-checkout').should be_truthy
       end
 
       it "adds the hooks to the relevant git hook files" do

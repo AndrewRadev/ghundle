@@ -13,7 +13,7 @@ module Ghundle
 
         Run.call('test-hook')
 
-        File.exists?('test-hook-result').should be_true
+        File.exists?('test-hook-result').should be_truthy
         File.read('test-hook-result').strip.should eq 'OK'
       end
 
@@ -26,7 +26,7 @@ module Ghundle
 
         Run.call('test-hook', 'one', 'two')
 
-        File.exists?('test-hook-result').should be_true
+        File.exists?('test-hook-result').should be_truthy
         File.read('test-hook-result').strip.should eq 'one + two'
       end
     end

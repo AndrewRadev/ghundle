@@ -51,7 +51,8 @@ module Ghundle
 
         FileUtils.mkdir_p(destination_path)
 
-        status, script = http_get(raw_github_url(@path.join('run')))
+        url = @path.join('run')
+        status, script = http_get(raw_github_url(url))
         if status != 200
           raise AppError.new("Couldn't fetch script file from #{url}, got response status: #{status}")
         end

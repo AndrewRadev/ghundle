@@ -53,7 +53,7 @@ module Ghundle
           'types'       => ['post-merge', 'pre-receive'],
           'description' => 'A test hook',
         })
-        instance.output.split("\n").grep(/A test hook/).should have(1).items
+        instance.output.split("\n").grep(/A test hook/).length.should eq 1
       end
     end
   end

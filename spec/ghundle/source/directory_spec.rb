@@ -34,7 +34,7 @@ module Ghundle
       end
 
       it "returns a fetched local source" do
-        source.fetch(Support.hooks_root.join("test-script")).exists?.should be_true
+        source.fetch(Support.hooks_root.join("test-script")).exists?.should be_truthy
       end
 
       describe "(validation)" do
@@ -42,21 +42,21 @@ module Ghundle
           source.validate
 
           Pathname.new('test-dir/test-script/run').unlink
-          expect { source.validate }.to raise_error
+          expect { source.validate }.to raise_error AppError
         end
 
         it "validates that the script is executable" do
           source.validate
 
           File.chmod 0644, 'test-dir/test-script/run'
-          expect { source.validate }.to raise_error
+          expect { source.validate }.to raise_error AppError
         end
 
         it "validates the presence of the metadata file" do
           source.validate
 
           Pathname.new('test-dir/test-script/meta.yml').unlink
-          expect { source.validate }.to raise_error
+          expect { source.validate }.to raise_error AppError
         end
       end
 

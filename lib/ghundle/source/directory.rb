@@ -55,7 +55,7 @@ module Ghundle
         end
 
         if not source_metadata_path.file?
-          raise AppError.new("Metadata file not found: #{metadata_source_path}")
+          raise AppError.new("Metadata file not found: #{source_metadata_path}")
         end
       end
 
