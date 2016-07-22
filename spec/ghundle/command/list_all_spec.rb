@@ -8,8 +8,8 @@ module Ghundle
 
       it "runs as expected" do
         stdout, stderr = capture_io { instance.call }
-        stdout.should_not be_empty
-        stderr.should be_empty
+        expect(stdout).to_not be_empty
+        expect(stderr).to be_empty
       end
 
       it "lists all available hooks in the hook root" do

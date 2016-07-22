@@ -30,8 +30,8 @@ module Ghundle
       it "runs as expected" do
         install_hook('one')
         stdout, stderr = capture_io { instance.call }
-        stdout.should_not be_empty
-        stderr.should be_empty
+        expect(stdout).to_not be_empty
+        expect(stderr).to be_empty
       end
 
       it "shows hook descriptions" do

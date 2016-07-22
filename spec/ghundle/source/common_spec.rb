@@ -9,13 +9,13 @@ module Ghundle
 
         %w[hook_name metadata].each do |m|
           it "needs an implementation for #{m}" do
-            lambda { source.send(m) }.should raise_error(NotImplementedError)
+            expect { source.send(m) }.to raise_error(NotImplementedError)
           end
         end
 
         %w[fetch fetched?].each do |m|
           it "needs an implementation for #{m}" do
-            lambda { source.send(m, '/foo') }.should raise_error(NotImplementedError)
+            expect { source.send(m, '/foo') }.to raise_error(NotImplementedError)
           end
         end
       end

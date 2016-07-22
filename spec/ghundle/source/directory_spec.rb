@@ -62,7 +62,7 @@ module Ghundle
 
       describe "(representation)" do
         it "looks like its hook name" do
-          source.to_s.should eq "test-dir/test-script"
+          expect(source.to_s).to eq "test-dir/test-script"
         end
       end
     end

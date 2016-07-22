@@ -56,7 +56,7 @@ module Ghundle
 
       describe "(representation)" do
         it "looks like its path" do
-          source.to_s.should eq "path/to/test-hook"
+          expect(source.to_s).to eq "path/to/test-hook"
         end
       end
     end
